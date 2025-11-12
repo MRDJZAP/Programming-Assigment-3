@@ -19,5 +19,3 @@
 - Dynamic Arrays (Vectors): Standard implementation components for storing data within the Stats class (the 2D prefix sum arrays) and likely used internally by the PNG image object.
 
 - Pairs/Tuples (Coordinate System): Used to manage and pass upper-left coordinates (x,y) of image regions.
-
-- Test

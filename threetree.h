@@ -197,7 +197,7 @@ private:
      * @param tol is the allowed tolerance
      */
     Node* BuildTree(Stats& s, pair<int, int> ul, int w, int h, double tol);
-
+    
     /* END ================ Required private functions (YOU IMPLEMENT) ====== */
 
     /******************************************************************

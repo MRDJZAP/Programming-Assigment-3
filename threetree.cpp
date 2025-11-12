@@ -12,9 +12,8 @@
  * ThreeTree constructor given tolerance for variance.
 **/
 ThreeTree::ThreeTree(PNG& imIn, double tol) {
-    /* Complete your implementation below */
-
-    
+    Stats s(imIn);
+    root = BuildTree(s, pair<int, int>(0,0), imIn.width(), imIn.height(), tol);
 }
 
 /**
@@ -29,8 +28,9 @@ Node* ThreeTree::BuildTree(Stats& s, pair<int, int> ul, int w, int h, double tol
  * Render ThreeTree and return the resulting image.
 **/
 PNG ThreeTree::Render() const {
-    /* Replace the line below with your implementation */
-    return PNG();
+    PNG png(root->width, root->height);
+    drawImg(root, png);
+    return png;
 }
 
 /**
@@ -85,3 +85,20 @@ void ThreeTree::RotateCW() {
 * ADD YOUR IMPLEMENTATIONS BELOW                                 *
 *****************************************************************/
 
+void ThreeTree::drawImg(Node* subRoot,PNG& img) const {
+    if (subRoot == nullptr) {
+        return;
+    }
+
+    if (subRoot->A == nullptr && subRoot->B == nullptr && subRoot->C) {
+        RGBAPixel* pixel = img.getPixel(subRoot->upleft.first, subRoot->upleft.second);
+        pixel->r = subRoot->avg.r;
+        pixel->b = subRoot->avg.b;
+        pixel->g = subRoot->avg.g;
+        return;
+    }
+
+    drawImg(subRoot->A, img);
+    drawImg(subRoot->B, img);
+    drawImg(subRoot->C, img);
+}

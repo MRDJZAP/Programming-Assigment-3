@@ -9,3 +9,5 @@
  * THIS FILE WILL BE SUBMITTED
 **/
 
+/* POST: recursively(preOrder) draws the image by manipulating the img pixels when reaching a leaf node.*/
+void drawImg(Node* subRoot,PNG& img) const;

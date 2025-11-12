@@ -12,6 +12,14 @@
 #include <cmath>
 
 Stats::Stats(PNG& im) {
+    // Resize all vectors to match image dimensions
+    sumRed.resize(im.width(), vector<int64_t>(im.height(), 0));
+    sumGreen.resize(im.width(), vector<int64_t>(im.height(), 0));
+    sumBlue.resize(im.width(), vector<int64_t>(im.height(), 0));
+    sumsqRed.resize(im.width(), vector<int64_t>(im.height(), 0));
+    sumsqGreen.resize(im.width(), vector<int64_t>(im.height(), 0));
+    sumsqBlue.resize(im.width(), vector<int64_t>(im.height(), 0));
+    
     for (int x = 0; x < im.width(); x++) {
         for (int y = 0; y < im.height(); y++) {
             buildRed(x, y, im.getPixel(x, y));
@@ -27,7 +35,7 @@ int64_t Stats::GetSum(char channel, pair<int, int> ul, int w, int h) {
     bool bothZero = false;
     bool oneZero = false;
 
-    if (ul.first == 0 && ul.second) {
+    if (ul.first == 0 && ul.second == 0) {
         bothZero = true;
     } else if (ul.first == 0 || ul.second == 0){
         oneZero = true;
@@ -40,7 +48,7 @@ int64_t Stats::GetSum(char channel, pair<int, int> ul, int w, int h) {
             if (ul.second == 0) {
                 result = sumRed[ul.first + (w-1)][ul.second + (h-1)] - sumRed[ul.first-1][ul.second + (h-1)];
             } else {
-                result = sumRed[ul.first + (w-1)][ul.first + (h-1)] - sumRed[ul.first + (w-1)][ul.second - 1];
+                result = sumRed[ul.first + (w-1)][ul.second + (h-1)] - sumRed[ul.first + (w-1)][ul.second - 1];
             }
         } else {
             result = sumRed[ul.first + (w-1)][ul.second + (h-1)] - sumRed[ul.first - 1][ul.second + (h-1)] -
@@ -53,7 +61,7 @@ int64_t Stats::GetSum(char channel, pair<int, int> ul, int w, int h) {
             if (ul.second == 0) {
                 result = sumGreen[ul.first + (w-1)][ul.second + (h-1)] - sumGreen[ul.first-1][ul.second + (h-1)];
             } else {
-                result = sumGreen[ul.first + (w-1)][ul.first + (h-1)] - sumGreen[ul.first + (w-1)][ul.second - 1];
+                result = sumGreen[ul.first + (w-1)][ul.second + (h-1)] - sumGreen[ul.first + (w-1)][ul.second - 1];
             }
         } else {
             result = sumGreen[ul.first + (w-1)][ul.second + (h-1)] - sumGreen[ul.first - 1][ul.second + (h-1)] -
@@ -66,7 +74,7 @@ int64_t Stats::GetSum(char channel, pair<int, int> ul, int w, int h) {
             if (ul.second == 0) {
                 result = sumBlue[ul.first + (w-1)][ul.second + (h-1)] - sumBlue[ul.first-1][ul.second + (h-1)];
             } else {
-                result = sumBlue[ul.first + (w-1)][ul.first + (h-1)] - sumBlue[ul.first + (w-1)][ul.second - 1];
+                result = sumBlue[ul.first + (w-1)][ul.second + (h-1)] - sumBlue[ul.first + (w-1)][ul.second - 1];
             }
         } else {
             result = sumBlue[ul.first + (w-1)][ul.second + (h-1)] - sumBlue[ul.first - 1][ul.second + (h-1)] -
@@ -82,7 +90,7 @@ int64_t Stats::GetSumSq(char channel, pair<int, int> ul, int w, int h) {
     bool bothZero = false;
     bool oneZero = false;
 
-    if (ul.first == 0 && ul.second) {
+    if (ul.first == 0 && ul.second == 0) {
         bothZero = true;
     } else if (ul.first == 0 || ul.second == 0){
         oneZero = true;
@@ -95,7 +103,7 @@ int64_t Stats::GetSumSq(char channel, pair<int, int> ul, int w, int h) {
             if (ul.second == 0) {
                 result = sumsqRed[ul.first + (w-1)][ul.second + (h-1)] - sumsqRed[ul.first-1][ul.second + (h-1)];
             } else {
-                result = sumsqRed[ul.first + (w-1)][ul.first + (h-1)] - sumsqRed[ul.first + (w-1)][ul.second - 1];
+                result = sumsqRed[ul.first + (w-1)][ul.second + (h-1)] - sumsqRed[ul.first + (w-1)][ul.second - 1];
             }
         } else {
             result = sumsqRed[ul.first + (w-1)][ul.second + (h-1)] - sumsqRed[ul.first - 1][ul.second + (h-1)] -
@@ -108,7 +116,7 @@ int64_t Stats::GetSumSq(char channel, pair<int, int> ul, int w, int h) {
             if (ul.second == 0) {
                 result = sumsqGreen[ul.first + (w-1)][ul.second + (h-1)] - sumsqGreen[ul.first-1][ul.second + (h-1)];
             } else {
-                result = sumsqGreen[ul.first + (w-1)][ul.first + (h-1)] - sumsqGreen[ul.first + (w-1)][ul.second - 1];
+                result = sumsqGreen[ul.first + (w-1)][ul.second + (h-1)] - sumsqGreen[ul.first + (w-1)][ul.second - 1];
             }
         } else {
             result = sumsqGreen[ul.first + (w-1)][ul.second + (h-1)] - sumsqGreen[ul.first - 1][ul.second + (h-1)] -
@@ -121,7 +129,7 @@ int64_t Stats::GetSumSq(char channel, pair<int, int> ul, int w, int h) {
             if (ul.second == 0) {
                 result = sumsqBlue[ul.first + (w-1)][ul.second + (h-1)] - sumsqBlue[ul.first-1][ul.second + (h-1)];
             } else {
-                result = sumsqBlue[ul.first + (w-1)][ul.first + (h-1)] - sumsqBlue[ul.first + (w-1)][ul.second - 1];
+                result = sumsqBlue[ul.first + (w-1)][ul.second + (h-1)] - sumsqBlue[ul.first + (w-1)][ul.second - 1];
             }
         } else {
             result = sumsqBlue[ul.first + (w-1)][ul.second + (h-1)] - sumsqBlue[ul.first - 1][ul.second + (h-1)] -
@@ -162,9 +170,7 @@ void Stats::buildRed(int x, int y, RGBAPixel* pixel) {
     if (x == 0 && y == 0) {
         sumRed[x][y] = pixel->r;
         sumsqRed[x][y] = pixel->r * pixel->r;
-    }
-
-    if (x == 0) {
+    } else if (x == 0) {
         sumRed[x][y] = sumRed[x][y-1] + pixel->r;
         sumsqRed[x][y] = sumsqRed[x][y-1] + (pixel->r * pixel->r);
     } else if (y == 0) {
@@ -180,9 +186,7 @@ void Stats::buildGreen(int x, int y, RGBAPixel* pixel) {
     if (x == 0 && y == 0) {
         sumGreen[x][y] = pixel->g;
         sumsqGreen[x][y] = pixel->g * pixel->g;
-    }
-
-    if (x == 0) {
+    } else if (x == 0) {
         sumGreen[x][y] = sumGreen[x][y-1] + pixel->g;
         sumsqGreen[x][y] = sumsqGreen[x][y-1] + (pixel->g * pixel->g);
     } else if (y == 0) {
@@ -198,9 +202,7 @@ void Stats::buildBlue(int x, int y, RGBAPixel* pixel) {
     if (x == 0 && y == 0) {
         sumBlue[x][y] = pixel->b;
         sumsqBlue[x][y] = pixel->b * pixel->b;
-    }
-
-    if (x == 0) {
+    } else if (x == 0) {
         sumBlue[x][y] = sumBlue[x][y-1] + pixel->b;
         sumsqBlue[x][y] = sumsqBlue[x][y-1] + (pixel->b * pixel->b);
     } else if (y == 0) {

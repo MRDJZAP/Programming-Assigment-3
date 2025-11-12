@@ -9,6 +9,7 @@
 #include "stats.h"
 #include "cs221util/RGBAPixel.h"
 #include <cstdint>
+#include <cmath>
 
 Stats::Stats(PNG& im) {
     for (int x = 0; x < im.width(); x++) {
@@ -136,14 +137,20 @@ int64_t Stats::GetSumSq(char channel, pair<int, int> ul, int w, int h) {
  * See written specification for a description of this function.
 **/
 double Stats::GetVar(pair<int, int> ul, int w, int h) {
-	/* Replace the line below with your implementation */
-	return 0;
+	int64_t redVar = GetSumSq('r', ul, w, h) - (std::pow(GetSum('r', ul, w, h), 2) / (w*h));
+    int64_t greenVar = GetSumSq('g', ul, w, h) - (std::pow(GetSum('g', ul, w, h), 2) / (w*h));
+    int64_t blueVar = GetSumSq('b', ul, w, h) - (std::pow(GetSum('b', ul, w, h), 2) / (w*h));
+    
+    return redVar + greenVar + blueVar;
 }
 
 
 RGBAPixel Stats::GetAvg(pair<int, int> ul, int w, int h) {
-	/* Replace the line below with your implementation */
-	return RGBAPixel();
+	int64_t redAvg = GetSum('r', ul, w, h) / (w * h);
+    int64_t greenAvg = GetSum('g', ul, w, h) / (w * h);
+    int64_t blueAvg = GetSum('b', ul, w, h) / (w * h);
+
+    return RGBAPixel(redAvg, greenAvg, blueAvg);
 }
 
 /****************************************************************

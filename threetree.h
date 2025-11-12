@@ -33,7 +33,7 @@ public:
     int width;		// width and height of rectangular region
     int height;		// represented by Node in number of pixels
     RGBAPixel avg;	// average color of Node's region
-    double var;		// variability over region  
+    double var;		// variability over region
     Node* A; // ptr to left / top subtree
     Node* B; // ptr to middle subtree
     Node* C; // ptr to right / bottom subtree
@@ -95,35 +95,35 @@ public:
      *  |   B   |
      *  |       |    (Split tall)
      *  +-------+
-     *  |   C   | 
+     *  |   C   |
      *  |       |
      *  +-------+
-     * 
+     *
      * If the rectangular region is wider than it is tall, the region is divided
      * into vertical strips:
      *  +---------+---------+---------+
      *  |    A    |    B    |    C    |
      *  |         |         |         |    (Split wide)
      *  +---------+---------+---------+
-     * 
+     *
      * Your regions are not guaranteed to have dimensions exactly divisible by 3.
      * If the dimensions of your rectangular region are 3p x q or q x 3p where 3p
      * represents the length of the long side, then your rectangular regions will
      * each have dimensions p x q (or q x p)
-     * 
+     *
      * If the dimensions are (3p+1) x q, subregion B gets the extra pixel of size
      * while subregions A and C have dimensions p x q.
-     * 
+     *
      * If the dimensions are (3p+2) x q, subregions A and C each get an extra pixel
      * of size, while subregion B has dimensions p x q.
-     * 
+     *
      * If the region to be divided is a square, then apply the Split wide behaviour.
-     * 
+     *
      * How would a 2 x 1 rectangle be split?
-     * 
+     *
      * Then it recursively partitions Nodes, starting at the root and
      * until the Node's variability is at most tol or the Node is a single pixel.
-     * 
+     *
      * Default tolerance is 0.0.
     **/
     ThreeTree(PNG& imIn, double tol = 0.0);
@@ -209,4 +209,4 @@ private:
 
 };
 
-#endif 
+#endif

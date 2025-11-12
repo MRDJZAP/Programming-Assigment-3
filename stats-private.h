@@ -9,3 +9,21 @@
  * THIS FILE WILL BE SUBMITTED
 **/
 
+/* PRE: x and y >= 0
+* MOD: this
+* POST: builds the sum of all the red chanells sumRed including the sumSqRed starting from (0,0) to (x,y)
+*/
+#include "cs221util/RGBAPixel.h"
+void buildRed(int x, int y, cs221util::RGBAPixel* pixel);
+
+/* PRE: x and y >= 0
+* MOD: this
+* POST: builds the sum of all the green channels sumGreen including the sumSqGreen starting from (0,0) to (x,y)
+*/
+void buildGreen(int x, int y, cs221util::RGBAPixel* pixel);
+
+/* PRE: x and y >= 0
+* MOD: this
+* POST: builds the sum of all the blue channels subBlue including the sumSqBlue starting from (0,0) to (x,y)
+*/
+void buildBlue(int x, int y, cs221util::RGBAPixel* pixel);

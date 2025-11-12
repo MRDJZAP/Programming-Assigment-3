@@ -1,4 +1,4 @@
-# 🌳 Blocky Trees
+# Blocky Trees
 
 **Course**: CPSC221, UBC, Introduction to data structures and algorithms
 

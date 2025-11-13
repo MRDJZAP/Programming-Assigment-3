@@ -120,8 +120,8 @@ void ThreeTree::RotateCW() {
   if (root == nullptr) {
     return;
   }
-  int original_root_width = root->width;
-  root = rotateNode(root, original_root_width);
+  int original_root_height = root->height;
+  root = rotateNode(root, original_root_height);
 }
 
 /*****************************************************************
@@ -201,35 +201,32 @@ Node *ThreeTree::copyNode(Node *subRoot) {
   return nd;
 }
 
-Node *ThreeTree::rotateNode(Node *node, int original_root_width) {
+Node *ThreeTree::rotateNode(Node *node, int original_root_height) {
   if (node == nullptr) {
     return nullptr;
   }
 
-  // Store original properties before modifying the node
   int orig_w = node->width;
   int orig_h = node->height;
   pair<int, int> orig_ul = node->upleft;
 
-  // Update dimensions and position for clockwise rotation
+
   node->width = orig_h;
   node->height = orig_w;
-  node->upleft = {orig_ul.second, original_root_width - orig_ul.first - orig_w};
+  node->upleft = {original_root_height - orig_ul.second - orig_h, orig_ul.first};
 
   // Recurse on children and reorder them based on the original split direction
-  if (orig_w >= orig_h) { // Original split was wide (A|B|C). After CW rotation, it's a tall split.
-                         // The new order of children is C, B, A from top to bottom.
-    Node *tempA = rotateNode(node->A, original_root_width);
-    Node *tempB = rotateNode(node->B, original_root_width);
-    Node *tempC = rotateNode(node->C, original_root_width);
+  if (orig_w >= orig_h) {
+    Node *tempA = rotateNode(node->A, original_root_height);
+    Node *tempB = rotateNode(node->B, original_root_height);
+    Node *tempC = rotateNode(node->C, original_root_height);
     node->A = tempC;
     node->B = tempB;
     node->C = tempA;
-  } else { // Original split was tall (A/B/C). After CW rotation, it's a wide split.
-           // The new order of children is A, B, C from left to right.
-    node->A = rotateNode(node->A, original_root_width);
-    node->B = rotateNode(node->B, original_root_width);
-    node->C = rotateNode(node->C, original_root_width);
+  } else {
+    node->A = rotateNode(node->A, original_root_height);
+    node->B = rotateNode(node->B, original_root_height);
+    node->C = rotateNode(node->C, original_root_height);
   }
 
   return node;

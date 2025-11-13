@@ -29,4 +29,4 @@ Node* copyNode(Node* subRoot);
  * Switching w, h
  * Swapping A and C for each subRoot
  */
-Node* rotateNode(Node* subRoot, int original_root_width);
+Node* rotateNode(Node* subRoot, int original_root_height);

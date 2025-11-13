@@ -33,7 +33,7 @@ Node *ThreeTree::BuildTree(Stats &s, pair<int, int> ul, int w, int h,
   // Base cases for recursion termination:
   // 1. Variability is within tolerance.
   // 2. The region is a single pixel.
-  if (nd->var <= tol || (w == 1 && h == 1)) {
+  if (nd->var < tol || (w == 1 && h == 1)) {
     return nd;
   }
 

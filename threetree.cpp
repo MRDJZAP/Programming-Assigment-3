@@ -120,8 +120,8 @@ void ThreeTree::RotateCW() {
   if (root == nullptr) {
     return;
   }
-  int original_root_height = root->height;
-  root = rotateNode(root, original_root_height);
+
+  root = rotateNode(root, root->height);
 }
 
 /*****************************************************************
@@ -210,24 +210,24 @@ Node *ThreeTree::rotateNode(Node *node, int original_root_height) {
   int orig_h = node->height;
   pair<int, int> orig_ul = node->upleft;
 
-
   node->width = orig_h;
   node->height = orig_w;
-  node->upleft = {original_root_height - orig_ul.second - orig_h, orig_ul.first};
+  node->upleft = {original_root_height - orig_ul.second - orig_h,
+                  orig_ul.first};
 
-  // Recurse on children and reorder them based on the original split direction
-  if (orig_w >= orig_h) {
-    Node *tempA = rotateNode(node->A, original_root_height);
-    Node *tempB = rotateNode(node->B, original_root_height);
-    Node *tempC = rotateNode(node->C, original_root_height);
+  // Recurse on children first
+  Node *tempA = rotateNode(node->A, original_root_height);
+  Node *tempB = rotateNode(node->B, original_root_height);
+  Node *tempC = rotateNode(node->C, original_root_height);
+
+  if ((tempA != nullptr && tempC != nullptr) &&
+      (tempC->upleft.first < tempA->upleft.first ||
+       tempC->upleft.second < tempA->upleft.second)) {
     node->A = tempC;
-    node->B = tempB;
     node->C = tempA;
-  } else {
-    node->A = rotateNode(node->A, original_root_height);
-    node->B = rotateNode(node->B, original_root_height);
-    node->C = rotateNode(node->C, original_root_height);
   }
+
+  node->B = tempB;
 
   return node;
 }
